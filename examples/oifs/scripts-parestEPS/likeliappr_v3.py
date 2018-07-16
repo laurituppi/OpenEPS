@@ -1,0 +1,66 @@
+import numpy as np
+import sys
+import netCDF4
+from netCDF4 import Dataset
+import random
+
+control = sys.argv[1]					# control data e.g. analysis
+nensm = int(sys.argv[2])				# ensemble size
+ncol = int(sys.argv[3])					# number of random columns
+
+control = Dataset(control,mode='r')			# read the control data (temperature) in
+nlats = len(control.variables['lat'])
+nlons = len(control.variables['lon'])
+nlevs = len(control.variables['plev'])
+t_c = control.variables['var130']
+t_c = t_c[0,:,:,:]
+
+ens_t_data = np.zeros((nensm,nlevs,nlats,nlons))
+for i in range(0,nensm):				# loop for reading data from each ensemble member
+  ensmem = Dataset(sys.argv[i+4],mode='r')
+  t = ensmem.variables['T']
+  ens_t_data[i,:,:,:]=t[:]				# all ens data is put in one matrix
+
+lat_index = np.arange(nlats)
+lon_index = np.arange(nlons)
+
+sel_lat = random.sample(lat_index,ncol)			# draw ncol random lat-lon points from the global grid
+sel_lon = random.sample(lon_index,ncol)
+
+tcol_ens = np.zeros((nlevs,nensm,ncol))
+tcol_c = np.zeros((nlevs,ncol))
+#print np.shape(tcol_c)
+for i in range(0,ncol):					# append the ncol random columns into long colums
+  #start = i*nlevs
+  #stop = (i+1)*nlevs
+  lon = sel_lon[i]
+  lat = sel_lat[i]
+  #print np.shape(t_c[::-1,lat,lon])
+  tcol_c[:,i] = t_c[::-1,lat,lon]			# reshaping the control data into one column
+							# ::-1 because the analysis data is in reversed order
+  for j in range(0,nensm):				# ens data is reshaped into nensmm columns similar way as the control data
+    tcol_ens[:,j,i] = ens_t_data[j,:,lat,lon]
+
+s2_obs = 0.8**2						# obsevation error variance (a rough guess)
+
+ens_mean = np.zeros((nlevs,ncol))
+for i in range(ncol):
+  ens_mean[:,i] = (sum(tcol_ens[:,:,i].T))/float(nensm)
+
+#for i in range(nlevs*ncol): # test to check that the data is read correctly
+#  print tcol_c[i], ens_mean[i]
+
+s2_ens = np.zeros(ncol)
+for i in range(ncol):
+  apu1 = np.zeros(nlevs)
+  for j in range(0,nensm):				# calculation of ensemble variance
+    apu1 += (tcol_ens[:,j,i]-ens_mean[:,i])**2
+
+  s2_ens[i] = sum(apu1/(float(nensm)-1.0))/float(nlevs)
+
+Jk = 0.0
+for i in range(0,ncol):				# calculation of the cost function part of the approx likelihood function
+  for j in range(0,nlevs):
+    Jk = Jk + (tcol_c[j,i] - ens_mean[j,i])**2 / (s2_obs + s2_ens[i]) + np.log(s2_obs + s2_ens[i])
+
+print 'Jk=',Jk

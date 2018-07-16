@@ -26,6 +26,7 @@ else
 
     # Delete the line from ctrl
     sed -i -e "s#ENTSHALP=2.0,##g" fort.4
+    sed -i -e "s#ENTRORG=1.75E-03,##g" fort.4
 fi
 
 

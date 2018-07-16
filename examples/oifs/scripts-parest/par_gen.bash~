@@ -35,10 +35,10 @@ fi
 if [ 1 -eq 1 ]; then
 rm -f $DATA/eppes/scores.dat
 module load python-env/2.7.10
-for imem in $(seq 1 $ENS); do
+for imem in $(seq 1 $ENS2); do
     imem=$(printf "%03d" $imem)
-    step=$(printf "%06d" $FCLEN)
-    #echo 'FCLEN= ' $FCLEN ' FCLEN2= ' $FCLEN2 ' ENS= ' $ENS ' ENS2= ' $ENS2
+    step=$(printf "%06d" $FCLEN2)
+    echo 'FCLEN= ' $FCLEN ' FCLEN2= ' $FCLEN2 ' ENS= ' $ENS ' ENS2= ' $ENS2
     # *** command line arguments for DTEN.py ***
     # See details in commentation of DTEN.py.
     forecast_SH=$DATA/$date/pert$imem/PPSH_${EXPS}+$step.nc

@@ -2,29 +2,50 @@
 #
 # Initialize EPPES routine
 #
+module load python-env/2.7.10
+module load biopython-env
 
 # link eppes
-ln -sf $EPPES_EXE $DATA/eppes/eppes_routine
+#ln -sf $EPPES_EXE $DATA/eppes/eppes_routine
+ln -sf $EPPES_EXE $DATA/eppes/eppesroutine.py
 
-#mufile
-printf "%s\n" "2.0" > $DATA/eppes/mufile.dat
-#printf "%s\n" "2.0" >> $DATA/eppes/mufile.dat
+#mufile----------------------------------------------------------------
+#printf "%s\n" "2.0" > $DATA/eppes/mufile.dat
+printf "%s\n" "2.2" > $DATA/eppes/mufile.dat
+#printf "%s\n" "2.512960270963074283e+00" > $DATA/eppes/mufile.dat
 
-#sigfile
-printf "%s\n" "0.4" > $DATA/eppes/sigfile.dat
-#printf "%s\n" "0 2.0" >> $DATA/eppes/sigfile.dat
+#printf "%s\n" "1.75E-03" >> $DATA/eppes/mufile.dat
+printf "%s\n" "1.925E-03" >> $DATA/eppes/mufile.dat
+#printf "%s\n" "2.266698515809868492e-03" >> $DATA/eppes/mufile.dat
 
-#bounds
-printf "%s\n" "0.5 4.0" > $DATA/eppes/bounds.dat
-#printf "%s\n" "1.0 4.0" >> $DATA/eppes/bounds.dat
+#sigfile---------------------------------------------------------------
 
-#nfile
+# 1 parameter
+#printf "%s\n" "0.7" > $DATA/eppes/sigfile.dat
+
+# 2 parameters
+printf "%s\n" "0.7        0.0" > $DATA/eppes/sigfile.dat
+printf "%s\n" "0.0        1.2E-06" >> $DATA/eppes/sigfile.dat
+
+#printf "%s\n" "4.010529215980582762e-01 7.475014405629379084e-05" > $DATA/eppes/sigfile.dat
+#printf "%s\n" "7.475014405629379084e-05 6.765582912005412036e-07" >> $DATA/eppes/sigfile.dat
+
+#bounds----------------------------------------------------------------
+printf "%s\n" "0.5        6.0" > $DATA/eppes/bounds.dat
+printf "%s\n" "1.0E-04   1.0E-02" >> $DATA/eppes/bounds.dat
+
+#nfile ----------------------------------------------------------------
 printf "%s\n" "10" > $DATA/eppes/nfile.dat
 #printf "%s\n" "2.0" >> $DATA/eppes/nfile.dat
 
-#wfile
-printf "%s\n" "1" > $DATA/eppes/wfile.dat
-#printf "%s\n" "0 2" >> $DATA/eppes/wfile.dat
+#wfile ----------------------------------------------------------------
+
+# 1 parameter
+#printf "%s\n" "1" > $DATA/eppes/wfile.dat
+
+# 2 parameters
+printf "%s\n" "1        0" > $DATA/eppes/wfile.dat
+printf "%s\n" "0        1" >> $DATA/eppes/wfile.dat
 
 
 # ! THIS IS A LOT SIMPLER TO JUST DO BY HAND,
@@ -90,47 +111,90 @@ done
 fi
 
 # eppes sampleonly namelist
-cat > $DATA/eppes/eppesconf_init.nml <<EOF
-&eppesconf
- sampleonly = 1
- nsample    = $ENS
- maxn0 = 10
- mufile    = 'mufile.dat'
- sigfile   = 'sigfile.dat'
- wfile     = 'wfile.dat'
- nfile     = 'nfile.dat'
- sampleout = 'sampleout.dat'
- boundsfile = 'bounds.dat'
-/
+#cat > $DATA/eppes/eppesconf_init.nml <<EOF
+#&eppesconf
+# sampleonly = 1
+# nsample    = $ENS
+# maxn0 = 10
+# mufile    = 'mufile.dat'
+# sigfile   = 'sigfile.dat'
+# wfile     = 'wfile.dat'
+# nfile     = 'nfile.dat'
+# sampleout = 'sampleout.dat'
+# boundsfile = 'bounds.dat'
+#/
+#EOF
+cat > $DATA/eppes/eppes_init.cfg <<EOF
+[files]
+mufile = mufile.dat
+wfile = wfile.dat
+sigfile = sigfile.dat
+nfile = nfile.dat
+scorefile = scores.dat
+samplein = oldsample.dat
+sampleout = sampleout.dat
+boundsfile = bounds.dat
+winfofile = winfo.dat
+
+[options]
+sampleonly = 1
+verbosity = 1
+nsample = $ENS
+maxn = 10
+lognor = 0
+useranks = 1
 EOF
 
 # eppes update namelist
-cat > $DATA/eppes/eppesconf_run.nml <<EOF
-&eppesconf
- sampleonly = 0
- nsample    = $ENS
- maxn0 = 10
- mufile    = 'mufile.dat'
- sigfile   = 'sigfile.dat'
- wfile     = 'wfile.dat'
- nfile     = 'nfile.dat'
- samplein  = 'oldsample.dat'
- sampleout = 'sampleout.dat'
- scorefile = 'scores.dat'
- boundsfile = 'bounds.dat'
- winfofile = 'winfo.dat'
- combine_method = 'amean'
-/
+#cat > $DATA/eppes/eppesconf_run.nml <<EOF
+#&eppesconf
+# sampleonly = 0
+# nsample    = $ENS
+# maxn0 = 10
+# mufile    = 'mufile.dat'
+# sigfile   = 'sigfile.dat'
+# wfile     = 'wfile.dat'
+# nfile     = 'nfile.dat'
+# samplein  = 'oldsample.dat'
+# sampleout = 'sampleout.dat'
+# scorefile = 'scores.dat'
+# boundsfile = 'bounds.dat'
+# winfofile = 'winfo.dat'
+# combine_method = 'amean'
+#/
+#EOF
+cat > $DATA/eppes/eppes_run.cfg <<EOF
+[files]
+mufile = mufile.dat
+wfile = wfile.dat
+sigfile = sigfile.dat
+nfile = nfile.dat
+scorefile = scores.dat
+samplein = oldsample.dat
+sampleout = sampleout.dat
+boundsfile = bounds.dat
+winfofile = winfo.dat
+
+[options]
+sampleonly = 0
+verbosity = 1
+nsample = $ENS
+maxn = 10
+lognor = 0
+useranks = 1
+combine_method = amean
 EOF
+
 
 
 # run sampleonly
 pushd $DATA/eppes > /dev/null
-cp -f eppesconf_init.nml eppesconf.nml
-./eppes_routine
+cp -f eppes_init.cfg eppes.cfg
+python eppesroutine.py eppes.cfg
+
 
 # change nml to production
-cp -f eppesconf_run.nml eppesconf.nml
+cp -f eppes_run.cfg eppes.cfg
 
 # store init values
 mkdir -p init
