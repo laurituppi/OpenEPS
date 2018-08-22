@@ -30,10 +30,10 @@ LEV=91
 FCLEN=12
 
 # Ensemble size (CTRL is always member 0, so real size is ENS+1)
-ENS=2
+ENS=5
 
 # Folder for modded scripts (e.g. "parest", when scripts are in /scripts-parest/)
-SCR_MOD=""
+SCR_MOD="parest"
 
 # Version
 OIFSv=40r1v1
@@ -75,7 +75,7 @@ export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 # --------------------------------------------------------------
 # Model structure and programs that are needed
 REQUIRE_DIRS="WORK SCRI DATA SRC BIN"
-REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash"
+REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash MTEN.py"
 REQUIRE_NAMEL="namelist_general.bash namelist_${OIFSv}.bash"
 
 
@@ -116,19 +116,19 @@ NHISTS=0
 
 # Model level variables and model levels
 # (leave VARSX as "" if no output is desired)
-VARSM=""   # String list with spaces in between
+VARSM="129 130 131 132 54 133"   # String list with spaces in between
 LEVSM=$(echo $(seq 19)) # String list with spaces in between
 LEVSM="-99"
 
 # Pressure level variables and pressure levels (in Pa)
-VARSP="129 130 133"
+VARSP="129" # 130 133"
 LEVSP="50000.0 92500.0"
 
 # Surface level dynamic variables
-VARSS="" #129 152"
+VARSS="129" #129 152"
 
 # Surface variables
-VARPP="151 165 176 177 208"
+VARPP="134" #"151 165 176 177 208"
 
 
 
@@ -153,7 +153,8 @@ done
 # --------------------------------------------------------------
 
 # EPPES bin
-EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPES/eppes_routine
+#EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPES/eppes_routine
+EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPESPY/eppesroutine.py
 
 LPAR="false"
 
