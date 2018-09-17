@@ -27,9 +27,12 @@ fi
 #
 export cdate ndate
 cdate=$SDATE
+number_of_ensemble=0
 
 if [ ! -e $DATA/Makefile ]; then
     while [ $cdate -le $EDATE ]; do
+        export number_of_ensemble
+        number_of_ensemble=$((number_of_ensemble+1))
 	cd $DATA/$cdate
 	# Log
 	printf "\nRunning ens for $cdate\n"   >> $WORK/master.log

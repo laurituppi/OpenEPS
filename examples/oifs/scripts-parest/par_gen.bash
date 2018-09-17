@@ -34,7 +34,8 @@ fi
 # 2. Use global dry total energy norm as cost function.
 if [ 1 -eq 1 ]; then
 rm -f $DATA/eppes/scores.dat
-module load python-env/2.7.10
+#module load python-env/2.7.10
+module load python/2.7.13-gnu620
 for imem in $(seq 1 $ENS); do
     imem=$(printf "%03d" $imem)
     step=$(printf "%06d" $FCLEN)
@@ -70,7 +71,7 @@ fi
 pushd $DATA/eppes > /dev/null
 cp -f sampleout.dat oldsample.dat
 #./eppes_routine
-module load biopython-env
+#module load biopython-env
 python eppesroutine.py eppes.cfg
 
 # Store values

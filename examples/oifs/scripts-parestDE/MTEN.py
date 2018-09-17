@@ -57,7 +57,19 @@ ref_step = int(sys.argv[3]) 	 # Time step of reference data, use -1 if the datas
 referenceUVT = sys.argv[4]	 # File containing reference U and V wind component, temperature (and pressure) on model levels.
 referenceP = sys.argv[5]	 # File containing reference ground level pressure
 outputdir = sys.argv[6]		 # Directory where the file with the value of cost function is saved.
-scale = float(sys.argv[7])	 # an ad hoc scaling term of the cost function
+calc_style = int(sys.argv[7])	 # Calculation style: 1=Ehrendorfer, 2=Ollinaho
+scale = float(sys.argv[8])	 # an ad hoc scaling term of the cost function
+
+print '###########################'
+print forecastUVT
+print forecastP
+print ref_step
+print referenceUVT
+print referenceP
+print outputdir
+print calc_style
+print scale
+print '###########################'
 
 # Read the data from the given netCDF files.
 forecast_mlevs = Dataset(forecastUVT, mode='r') 	# forecast model level data
@@ -178,6 +190,7 @@ pr = 100000.0			 # a reference surface pressure
 cq = 1.000
 Lw = 2500800
 area = 5.1006447190979e14	 # surface area of the Earth
+#mean_sp = sum(sum(ref_sp))/float(nlats*nlons)
 
 # The wind and temperature differences are calculated at layer mid points by taking average of ith and i+1th model levels.
 
@@ -201,14 +214,27 @@ mda = np.zeros((nlevs-1,nlats,nlons))
 for i in range(0,nlevs-1):
   mda[i,:,:] = mda2d
 
-du2 = 0.5 * sum(sum(sum((ref_u_ave - f_u_ave)**2 * mdp * mda)))/area
-dv2 = 0.5 * sum(sum(sum((ref_v_ave - f_v_ave)**2 * mdp * mda)))/area
-dt2 = 0.5 * sum(sum(sum((cp/Tr) * (ref_t_ave - f_t_ave)**2 * mdp * mda)))/area
-dq2 = 0.5 * sum(sum(sum((cq*Lw**2)/(cp*Tr) * (ref_q_ave - f_q_ave)**2 * mdp * mda)))/area
-dlnp2 = 0.5 * sum(sum(Rd*Tr*pr * (np.log(ref_sp[:,:]) - np.log(f_sp[:,:]))**2 * mda2d))/area
+if calc_style==1: # Ehrendorfer's style [J/kg]
+  du2 = 0.5 * sum(sum(sum((ref_u_ave - f_u_ave)**2 * mdp * mda / ref_sp)))/area
+  dv2 = 0.5 * sum(sum(sum((ref_v_ave - f_v_ave)**2 * mdp * mda / ref_sp)))/area
+  dt2 = 0.5 * sum(sum(sum((cp/Tr) * (ref_t_ave - f_t_ave)**2 * mdp * mda / ref_sp)))/area
+  dq2 = 0.5 * sum(sum(sum((cq*Lw**2)/(cp*Tr) * (ref_q_ave - f_q_ave)**2 * mdp * mda / ref_sp)))/area
+  dlnp2 = 0.5 * sum(sum(Rd*Tr * ((ref_sp[:,:] - f_sp[:,:])/pr)**2 * mda2d))/area
+elif calc_style==2: # Ollinaho's style [J/kg*Pa], dp=1Pa
+  du2 = 0.5 * sum(sum(sum((ref_u_ave - f_u_ave)**2 * mda)))/area
+  dv2 = 0.5 * sum(sum(sum((ref_v_ave - f_v_ave)**2 * mda)))/area
+  dt2 = 0.5 * sum(sum(sum((cp/Tr) * (ref_t_ave - f_t_ave)**2 * mda)))/area
+  dq2 = 0.5 * sum(sum(sum((cq*Lw**2)/(cp*Tr) * (ref_q_ave - f_q_ave)**2 * mda)))/area
+  dlnp2 = 0.5 * sum(sum(Rd*Tr*pr/100.0 * (np.log(ref_sp[:,:]) - np.log(f_sp[:,:]))**2 * mda2d))/area
 
-deltaE2 = du2 + dv2 + dt2 + dq2 + dlnp2
-print deltaE2
+deltaE2 = (du2 + dv2 + dt2 + dq2) + dlnp2
+print ' ', du2, ' u-wind'
+print ' ', dv2, ' v-wind'
+print ' ', dt2, ' temperature'
+print ' ', dq2, ' specific humidity'
+print '+', dlnp2, ' logarithm of surface pressure'
+print '--------------------------'
+print deltaE2, ' moist total energy norm'
 
 # The value of the cost function is written into a file named score.dat here.
 dten = np.zeros(1)

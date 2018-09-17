@@ -2,9 +2,9 @@
 #
 # Initialize DE routine
 #
-module purge
-module load python-env/3.4.5
-module load biopython-env/3.4.5
+#module purge
+module load python/3.5.3-gnu620
+#module load biopython-env/3.4.5
 
 # link DE
 ln -sf $EPPES_EXE $DATA/eppes/DEroutine.py

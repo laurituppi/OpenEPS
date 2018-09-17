@@ -2,8 +2,9 @@
 #
 # Initialize EPPES routine
 #
-module load python-env/2.7.10
-module load biopython-env
+#module load python-env/2.7.10
+#module load biopython-env
+module load python/2.7.13-gnu620
 
 # link eppes
 #ln -sf $EPPES_EXE $DATA/eppes/eppes_routine

@@ -20,14 +20,14 @@
 # Basics
 EXPL="test2"  # Long exp name
 EXPS="part"       # 4 letter exp name
-SDATE=2017080100  # Exp start date
-EDATE=2017080100  # Exp end   date
+SDATE=2017010100  # Exp start date
+EDATE=2017013112  # Exp end   date
 DSTEP=12          # Hours between ensembles
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])
 RES=159
 LEV=91
-FCLEN=72
+FCLEN=1
 
 # Ensemble size (CTRL is always member 0, so real size is ENS+1)
 ENS=2
@@ -36,12 +36,11 @@ ENS=2
 SCR_MOD="parest"
 
 # Version
-#OIFSv=38r1v04
 OIFSv=40r1v1
 
 # Model bin
 #MODEL_EXE=/appl/earth/openifs/intel-16.0.0/intelmpi-5.1.1/38r1v04/bin/master.exe
-MODEL_EXE=/homeappl/home/lautuppi/appl_sisu/oifs40r1v1_ecCodes/oifs40r1v1/make/cce-opt/oifs/bin/master.exe
+MODEL_EXE=$USERAPPL/oifs40r1v1_ecCodes/oifs40r1v1/make/cce-opt/oifs/bin/master.exe
 
 export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
 
@@ -63,10 +62,10 @@ CPUSPERMODEL=24
 # see the time estimation formula in env.-configuration file.
 TIMEFORMODEL=
 # or
-EXPTIME="00:10:00"
+EXPTIME="03:06:00"
 
 # Which queue to submit the job to
-BATCHQUEUE=small #test #parallel
+BATCHQUEUE=small
 
 export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 
@@ -77,7 +76,7 @@ export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 # --------------------------------------------------------------
 # Model structure and programs that are needed
 REQUIRE_DIRS="WORK SCRI DATA SRC BIN"
-REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash par_init.bash par_gen.bash par_set.bash MTEN.py"
+REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash  par_init.bash par_gen.bash par_set.bash"
 REQUIRE_NAMEL="namelist_general.bash namelist_${OIFSv}.bash"
 
 
@@ -116,7 +115,6 @@ NFRHIS=$FCLEN
 NPOSTS=0
 NHISTS=0
 
-
 # Model level variables and model levels
 # (leave VARSX as "" if no output is desired)
 VARSM="129 130 131 132 54 133"   # String list with spaces in between
@@ -124,7 +122,7 @@ LEVSM=$(echo $(seq 19)) # String list with spaces in between
 LEVSM="-99"
 
 # Pressure level variables and pressure levels (in Pa)
-VARSP="129" # 130 133"
+VARSP=""
 LEVSP="50000.0 92500.0"
 
 # Surface level dynamic variables
@@ -156,7 +154,6 @@ done
 # --------------------------------------------------------------
 
 # EPPES bin
-#EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPES/eppes_routine
 EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPESPY/eppesroutine.py
 
 LPAR="true"
