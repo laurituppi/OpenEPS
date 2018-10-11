@@ -19,11 +19,11 @@
 # --------------------------------------------------------------
 # Basics
 #EXPL="38r1DErun"  # Long exp name
-EXPL="parest_conv_MTEN_jan2017_DE"
+EXPL="DE_for_Madeleine"
 EXPS="inio"       # 4 letter exp name
 SDATE=2017010100  # Exp start date
-#EDATE=2017010112  # Exp end   date
-EDATE=2017013112
+EDATE=2017010112  # Exp end   date
+#EDATE=2017013112
 DSTEP=12          # Hours between ensembles
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])
@@ -32,7 +32,7 @@ LEV=91
 FCLEN=72
 
 # Ensemble size (CTRL is always member 0, so real size is ENS+1)
-ENS=20
+ENS=5
 
 # Folder for modded scripts (e.g. "parest", when scripts are in /scripts-parest/)
 SCR_MOD="parestDE"
@@ -55,7 +55,7 @@ export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
 # RESOURCES
 # --------------------------------------------------------------
 # Number of nodes or number of cores per model
-NNODES=7
+NNODES=6
 # or
 #CPUSTOT=48
 
@@ -67,7 +67,7 @@ CPUSPERMODEL=24
 # see the time estimation formula in env.-configuration file.
 TIMEFORMODEL=
 # or
-EXPTIME="12:00:00"
+EXPTIME="00:20:00"
 
 # Which queue to submit the job to
 BATCHQUEUE=small

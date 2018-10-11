@@ -8,9 +8,9 @@
 
 # Run options
 #
-NAME=test_iniamp
+NAME=test_parest_DE
 MODEL=oifs
-HOST=taito
+HOST=sisu
 
 # Read in command line args
 #
