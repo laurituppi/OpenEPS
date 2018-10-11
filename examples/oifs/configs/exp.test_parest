@@ -41,7 +41,7 @@ OIFSv=40r1v1
 
 # Model bin
 #MODEL_EXE=/appl/earth/openifs/intel-16.0.0/intelmpi-5.1.1/38r1v04/bin/master.exe
-MODEL_EXE=/homeappl/home/lautuppi/appl_sisu/oifs40r1v1_ecCodes/oifs40r1v1/make/cce-opt/oifs/bin/master.exe
+MODEL_EXE=/proj/atm/lauri/oifs40r1v1/cce/8.5.6/bin/master.exe
 
 export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
 
@@ -156,8 +156,7 @@ done
 # --------------------------------------------------------------
 
 # EPPES bin
-#EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPES/eppes_routine
-EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPESPY/eppesroutine.py
+EPPES_EXE=/proj/atm/lauri/EPPESPY/eppesroutine.py
 
 LPAR="true"
 
