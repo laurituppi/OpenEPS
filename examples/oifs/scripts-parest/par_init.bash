@@ -36,7 +36,7 @@ printf "%s\n" "0.5        6.0" > $DATA/eppes/bounds.dat
 printf "%s\n" "1.0E-04   1.0E-02" >> $DATA/eppes/bounds.dat
 
 #nfile ----------------------------------------------------------------
-printf "%s\n" "10" > $DATA/eppes/nfile.dat
+printf "%s\n" "3" > $DATA/eppes/nfile.dat
 #printf "%s\n" "2.0" >> $DATA/eppes/nfile.dat
 
 #wfile ----------------------------------------------------------------
@@ -48,6 +48,8 @@ printf "%s\n" "10" > $DATA/eppes/nfile.dat
 printf "%s\n" "1        0" > $DATA/eppes/wfile.dat
 printf "%s\n" "0        1" >> $DATA/eppes/wfile.dat
 
+# maxstep--------------------------------------------------------------
+printf "%s\n" "0.05" > $DATA/eppes/maxstep.dat
 
 # ! THIS IS A LOT SIMPLER TO JUST DO BY HAND,
 # ! RETHINK IF THIS WOULD BE WORTH IT
@@ -136,12 +138,13 @@ samplein = oldsample.dat
 sampleout = sampleout.dat
 boundsfile = bounds.dat
 winfofile = winfo.dat
+maxstepfile = maxstep.dat
 
 [options]
 sampleonly = 1
 verbosity = 1
 nsample = $ENS
-maxn = 10
+maxn = 3
 lognor = 0
 useranks = 1
 EOF
@@ -175,12 +178,13 @@ samplein = oldsample.dat
 sampleout = sampleout.dat
 boundsfile = bounds.dat
 winfofile = winfo.dat
+maxstepfile = maxstep.dat
 
 [options]
 sampleonly = 0
 verbosity = 1
 nsample = $ENS
-maxn = 10
+maxn = 3
 lognor = 0
 useranks = 1
 combine_method = amean
