@@ -155,8 +155,8 @@ done
 # --------------------------------------------------------------
 
 # EPPES bin
-#EPPES_EXE=/proj/atm/lauri/EPPESPY/eppesroutine.py
-EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPESPY/eppesroutine.py
+EPPES_EXE=/proj/atm/lauri/EPPESPY/eppesroutine.py
+#EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPESPY/eppesroutine.py
 
 LPAR="true"
 
