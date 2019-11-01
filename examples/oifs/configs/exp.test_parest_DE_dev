@@ -19,23 +19,26 @@
 # --------------------------------------------------------------
 # Basics
 #EXPL="38r1DErun"  # Long exp name
-EXPL="DE_for_Madeleine"
+EXPL="testDE2"
 EXPS="inio"       # 4 letter exp name
 SDATE=2017010100  # Exp start date
-EDATE=2017010112  # Exp end   date
+EDATE=2017010200  # Exp end   date
 #EDATE=2017013112
 DSTEP=12          # Hours between ensembles
+
+# Experiment type ('C' for convergence test, 'O' for parameter optimization)
+EXPTYPE='C'
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])
 RES=159
 LEV=91
-FCLEN=12
+FCLEN=72
 
 # Ensemble size (CTRL is always member 0, so real size is ENS+1)
 ENS=5
 
 # Folder for modded scripts (e.g. "parest", when scripts are in /scripts-parest/)
-SCR_MOD="parestDE"
+SCR_MOD="parestDE_dev"
 
 # Version
 #OIFSv=38r1v04
@@ -45,7 +48,7 @@ OIFSv=40r1v1
 #MODEL_EXE=/appl/earth/openifs/intel-16.0.0/intelmpi-5.1.1/38r1v04/bin/master.exe
 MODEL_EXE=/proj/atm/lauri/oifs40r1v1/cce/8.5.6/bin/master.exe
 
-export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
+export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS EXPTYPE
 
 
 
@@ -160,5 +163,6 @@ done
 EPPES_EXE=/proj/atm/lauri/DE/DEroutine.py
 
 LPAR="true"
+#LPAR="false"
 
 export EPPES_EXE LPAR

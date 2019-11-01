@@ -32,12 +32,15 @@ number_of_ensemble=0
 if [ ! -e $DATA/Makefile ]; then
     while [ $cdate -le $EDATE ]; do
         export number_of_ensemble
-        number_of_ensemble=$((number_of_ensemble+1))
+        
 	cd $DATA/$cdate
 	# Log
 	printf "\nRunning ens for $cdate\n"   >> $WORK/master.log
 	echo `date +%H:%M:%S` init            >> $WORK/master.log
 	printf "   Processing date $cdate "
+
+	# Ens numbering
+	number_of_ensemble=$((number_of_ensemble+1))
 	
 	# Define next date
 	ndate=`exec $WORK/./mandtg $cdate + $DSTEP`

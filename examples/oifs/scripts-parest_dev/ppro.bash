@@ -11,6 +11,7 @@ nid=$(pwd | grep -o -P "$SUBDIR_NAME.{0,5}" | sed -e "s/$SUBDIR_NAME//g")
 # Log
 echo `date +%H:%M:%S` post-pro $SUBDIR_NAME${nid} >> $WORK/master.log
 
+if [ 0 -eq 1 ]; then
 for step in $steps; do
     # convert to GRIB1
     $GRIBTOOLS/grib_set -s edition=1 ICMSH${EXPS}+00${step} temp.grb1
@@ -23,6 +24,7 @@ for step in $steps; do
 
     rm -f temp.grb temp.grb1
 done
+fi
 
 # This block prepares files for DTEN.py
 for step in $steps; do
@@ -30,8 +32,8 @@ for step in $steps; do
     $GRIBTOOLS/grib_set -s edition=1 ICMSH${EXPS}+00${step} temp1.grb1
     $GRIBTOOLS/grib_set -s edition=1 ICMGG${EXPS}+00${step} temp2.grb1
 
-    # Select model level variables u, v, t and pressure
-    cdo -selvar,var130,var131,var132,var54 temp1.grb1 temp11.grb1
+    # Select model level variables u, v, t and pressure, q comes from GG file
+    cdo -selvar,var129,var130,var131,var132,var54 temp1.grb1 temp11.grb1
     
     # Do a spectral transform to gg
     cdo -sp2gpl temp11.grb1 temp3.grb1

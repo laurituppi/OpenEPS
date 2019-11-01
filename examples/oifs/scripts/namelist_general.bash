@@ -155,7 +155,10 @@ if [ ! -z $LPAR ] && [ $LPAR == "true" ] && [ $imem -gt 0 ]; then
     NAMCUMF="
     &NAMCUMF
       ENTSHALP=2.0,
-      ENTRORG=1.75E-03
+      ENTRORG=1.75E-03,
+      DETRPEN=0.75E-04,
+      RPRCON=1.4E-03,
+      RDEPTHS=20000.0,
     /"
 
 else

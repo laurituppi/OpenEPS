@@ -32,22 +32,32 @@ for imem in $(seq 1 $ENS); do
 done
 fi
 
-# 2. Use global dry total energy norm as cost function.
+# 2. Use global moist total energy norm as cost function.
 if [ 1 -eq 1 ]; then
+module unload python/3.5.3-gnu620
 module load python/2.7.13-gnu620
+#module load python/3.5.3-gnu620
 rm -f $DATA/eppes/score.dat
+an_date=`exec $WORK/./mandtg $cdate + $FCLEN` # date for verifying analysis
 for imem in $(seq 1 $ENS); do
     imem=$(printf "%03d" $imem)
     step=$(printf "%06d" $FCLEN)
-    # *** command line arguments for DTEN.py ***
-    # See details in commentation of DTEN.py.
+    # *** command line arguments for MTEN.py ***
+    # See details in commentation of MTEN.py.
     forecast_SH=$DATA/$date/pert$imem/PPSH_${EXPS}+$step.nc
     forecast_GG=$DATA/$date/pert$imem/PPGG_${EXPS}+$step.nc
     ref_timestep=-1 #$(((number_of_ensemble+4)*4+13))
     echo 'number of ensemble = ' $number_of_ensemble
     echo 'timestep in reference file = ' $ref_timestep
-    reference_SH=$DATA/$date/pert000/PPSH_${EXPS}+$step.nc
-    reference_GG=$DATA/$cdate/pert000/PPGG_${EXPS}+$step.nc
+    if [ "$EXPTYPE" = "C" ]; then # use control forecast as reference
+      reference_SH=$DATA/$date/pert000/PPSH_${EXPS}+$step.nc
+      reference_GG=$DATA/$date/pert000/PPGG_${EXPS}+$step.nc
+      echo 'chosen reference data:' $reference_SH
+    elif [ "$EXPTYPE" = "O" ]; then # use analysis as reference
+      reference_SH=/wrk/lautuppi/DONOTREMOVE/analyses/optimization/t$RES/$an_date/uvtpqsp.nc
+      reference_GG=$reference_SH
+      echo 'chosen reference data:' $reference_SH
+    fi
     outputdir=$DATA/$cdate/pert$imem
     calcstyle=1
     scale=1 #150.0
@@ -55,10 +65,26 @@ for imem in $(seq 1 $ENS); do
     # calculate cost fuction values
     python $SCRI/MTEN.py $forecast_SH $forecast_GG $ref_timestep $reference_SH $reference_GG $outputdir $calcstyle $scale
     score=$(sed -n '1p' < $DATA/$date/pert$imem/score.dat)
-    echo $score >> $DATA/eppes/score.dat
+    echo $score >> $DATA/eppes/score.dat ## DE:n jallittamiseksi, muistahan poistaa 's' !!!!
 done
 fi
 
+# 3. Use bad cost function; rmse of Z850
+if [ 0 -eq 1 ]; then
+rm -f $DATA/eppes/score.dat
+module unload python/3.5.3-gnu620
+module load python/2.7.13-gnu620
+for imem in $(seq 1 $ENS); do
+    imem=$(printf "%03d" $imem)
+    step=$(printf "%06d" $FCLEN)
+    forecast_SH=$DATA/$date/pert$imem/PPSH_${EXPS}+$step.nc
+    reference_SH=$DATA/$date/pert000/PPSH_${EXPS}+$step.nc
+    outputdir=$DATA/$cdate/pert$imem
+    python $SCRI/RMSE_z.py $forecast_SH $reference_SH $outputdir
+    score=$(sed -n '1p' < $DATA/$date/pert$imem/score.dat)
+    echo $score >> $DATA/eppes/score.dat
+done
+fi
 
 # Parameter perturbations
 #
@@ -87,7 +113,7 @@ if [ 0 -eq 1 ]; then
 fi
 # 2. Deterministic recalculation. The number of ensemble forecast is imported from /bin/main.bash.
 if [ 1 -eq 1 ]; then
-  n=$(( number_of_ensemble%10 ))
+  n=$(( number_of_ensemble%5 ))
   if [ "$n" -eq 0 ]; then
     echo '3.0' > $DATA/eppes/log.dat
     echo '################# recalculation ordered for next iteration ################'
@@ -96,7 +122,7 @@ fi
 #
 
 # Store values
-for item in sampleout mufile sigfile score; do
+for item in sampleout mufile sigfile score; do ## täällä myös 's' !!!!
     cp -f ${item}.dat $date/.
 done
 #cp -f sampleout.dat $date/.

@@ -21,8 +21,8 @@
 # Basics
 EXPL="EPS_test3_t159_iniamp"  # Long exp name
 EXPS="eps3"      # 4 letter exp name
-SDATE=2017080100  # Exp start date
-EDATE=2017080112  # Exp end   date
+SDATE=2016120100  # Exp start date
+EDATE=2016120112  # Exp end   date
 DSTEP=12          # Hours between ensembles
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])

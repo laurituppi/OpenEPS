@@ -18,24 +18,33 @@
 # GENERAL
 # --------------------------------------------------------------
 # Basics
-#EXPL="38r1DErun"  # Long exp name
-EXPL="parest_conv_MTEN_jan2017_DE_5"
-EXPS="inio"       # 4 letter exp name
-SDATE=2017010100  # Exp start date
-#EDATE=2017010112  # Exp end   date
-EDATE=2017013112
-DSTEP=12          # Hours between ensembles
+#EXPL="test_rmse"
+#EXPL="parest_conv_MTEN_dec2016-may2017_DE_5_x5"  # Long exp name
+#EXPL="parest_opt_MTEN_dec2016-nov2017_DE_50"
+#EXPL="benchmarks/level0/50mem_48h"
+#EXPL="publ_conv_tests/DE/level00/50mem_48h"
+#EXPL="publ_conv_tests/DE/level25/50mem_48h"
+#EXPL="publ_conv_tests/DE/level2/rmsez850/20mem_48h"
+EXPL="publ_conv_tests/DE/level2/bad_parameters/26mem_24h"
+EXPS="debp"       # 4 letter exp name
+SDATE=2016120100  # Exp start date
+#EDATE=2016120112  # Exp end   date
+EDATE=2017113000
+DSTEP=168          # Hours between ensembles
+
+# Experiment type ('C' for convergence test, 'O' for parameter optimization)
+EXPTYPE='C'
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])
 RES=159
 LEV=91
-FCLEN=72
+FCLEN=24
 
 # Ensemble size (CTRL is always member 0, so real size is ENS+1)
-ENS=5
+ENS=26
 
 # Folder for modded scripts (e.g. "parest", when scripts are in /scripts-parest/)
-SCR_MOD="parestDE"
+SCR_MOD="parestDE_dev"
 
 # Version
 #OIFSv=38r1v04
@@ -45,7 +54,7 @@ OIFSv=40r1v1
 #MODEL_EXE=/appl/earth/openifs/intel-16.0.0/intelmpi-5.1.1/38r1v04/bin/master.exe
 MODEL_EXE=/proj/atm/lauri/oifs40r1v1/cce/8.5.6/bin/master.exe
 
-export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
+export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS EXPTYPE
 
 
 
@@ -53,7 +62,7 @@ export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
 # RESOURCES
 # --------------------------------------------------------------
 # Number of nodes or number of cores per model
-NNODES=6
+NNODES=3
 # or
 #CPUSTOT=48
 
@@ -65,10 +74,10 @@ CPUSPERMODEL=24
 # see the time estimation formula in env.-configuration file.
 TIMEFORMODEL=
 # or
-EXPTIME="04:00:00"
-
+EXPTIME="50:00:00"
+#EXPTIME="00:20:00"
 # Which queue to submit the job to
-BATCHQUEUE=small
+BATCHQUEUE=small_long
 
 export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 
@@ -80,6 +89,7 @@ export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 # Model structure and programs that are needed
 REQUIRE_DIRS="WORK SCRI DATA SRC BIN"
 REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash par_gen.bash par_init.bash par_set.bash MTEN.py"
+#REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash  par_init.bash par_gen.bash par_set.bash RMSE_z.py"
 REQUIRE_NAMEL="namelist_general.bash namelist_${OIFSv}.bash"
 
 
@@ -120,13 +130,13 @@ NHISTS=0
 
 # Model level variables and model levels
 # (leave VARSX as "" if no output is desired)
-VARSM="129 130 131 132 54 133"   # String list with spaces in between
+VARSM="130 131 132 54 133"   # String list with spaces in between
 LEVSM=$(echo $(seq 19)) # String list with spaces in between
 LEVSM="-99"
 
 # Pressure level variables and pressure levels (in Pa)
 VARSP="129" # 130 133"
-LEVSP="20000.0 50000.0 70000.0 85000.0 92500.0 100000.0"
+LEVSP="85000.0"
 
 # Surface level dynamic variables
 VARSS="" #129 152"
@@ -160,5 +170,6 @@ done
 EPPES_EXE=/proj/atm/lauri/DE/DEroutine.py
 
 LPAR="true"
+#LPAR="false"
 
 export EPPES_EXE LPAR

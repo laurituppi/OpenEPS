@@ -20,8 +20,8 @@
 # Basics
 EXPL="test2"  # Long exp name
 EXPS="part"       # 4 letter exp name
-SDATE=2017080100  # Exp start date
-EDATE=2017080100  # Exp end   date
+SDATE=2016120100  # Exp start date
+EDATE=2016120200  # Exp end   date
 DSTEP=12          # Hours between ensembles
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])
@@ -29,8 +29,11 @@ RES=159
 LEV=91
 FCLEN=12
 
+# Experiment type ('C' for convergence test, 'O' for parameter optimization)
+EXPTYPE='C'
+
 # Ensemble size (CTRL is always member 0, so real size is ENS+1)
-ENS=2
+ENS=5
 
 # Folder for modded scripts (e.g. "parest", when scripts are in /scripts-parest/)
 SCR_MOD="parest_dev"
@@ -43,7 +46,7 @@ OIFSv=40r1v1
 #MODEL_EXE=/appl/earth/openifs/intel-16.0.0/intelmpi-5.1.1/38r1v04/bin/master.exe
 MODEL_EXE=/proj/atm/lauri/oifs40r1v1/cce/8.5.6/bin/master.exe
 
-export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
+export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS EXPTYPE
 
 
 
@@ -51,7 +54,7 @@ export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
 # RESOURCES
 # --------------------------------------------------------------
 # Number of nodes or number of cores per model
-NNODES=3
+NNODES=6
 # or
 #CPUSTOT=24
 
@@ -63,7 +66,7 @@ CPUSPERMODEL=24
 # see the time estimation formula in env.-configuration file.
 TIMEFORMODEL=
 # or
-EXPTIME="00:10:00"
+EXPTIME="00:20:00"
 
 # Which queue to submit the job to
 BATCHQUEUE=small #test #parallel
@@ -103,7 +106,6 @@ LSKEB="false" # "true" does not work with cy38r1
 
 # Initial state perturbations
 export INIPERT=1
-
 
 
 # --------------------------------------------------------------

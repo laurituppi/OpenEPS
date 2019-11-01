@@ -27,16 +27,15 @@ fi
 #
 export cdate ndate
 cdate=$SDATE
-number_of_ensemble=0
 
 # Init ensemble numbering
 number_of_ensemble=0
-export number_of_ensemble
+#export number_of_ensemble
 
 if [ ! -e $DATA/Makefile ]; then
     while [ $cdate -le $EDATE ]; do
         export number_of_ensemble
-        number_of_ensemble=$((number_of_ensemble+1))
+        echo 'main.bash: ' $DATA/$cdate
 	cd $DATA/$cdate
 
 	# Log

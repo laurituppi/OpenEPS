@@ -2,6 +2,7 @@
 
 # Get date
 date=${1:-$cdate}
+#date=2017010100
 
 # Get process id
 nid=$(pwd | grep -o -P "$SUBDIR_NAME.{0,5}" | sed -e "s/$SUBDIR_NAME//g")
@@ -43,6 +44,9 @@ else
     ln -sf ${IFSDATA}/t${RES}/$date/psu_$nid  ICMGG${EXPS}INIT
     ln -sf ${IFSDATA}/t${RES}/$date/pan_$nid  ICMGG${EXPS}INIUA
     ln -sf ${IFSDATA}/t${RES}/$date/pua_$nid  ICMSH${EXPS}INIT
+    #ln -sf ${IFSDATA}/t${RES}/$date/psu_000  ICMGG${EXPS}INIT
+    #ln -sf ${IFSDATA}/t${RES}/$date/pan_000  ICMGG${EXPS}INIUA
+    #ln -sf ${IFSDATA}/t${RES}/$date/pua_000  ICMSH${EXPS}INIT
 fi
 
 # Link climatologies

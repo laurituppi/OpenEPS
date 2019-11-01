@@ -187,7 +187,7 @@ elif ref_step<-1 or ref_step==0:
 
 # Set some constant values used in calculations.
 pi = math.pi
-dy = (pi*6731000.0)/nlats 	 # length increment in y direction
+dy = (pi*6731000.0)/float(nlats) 	 # length increment in y direction
 Tr = 280.0			 # reference temperature
 cp = 1004.0			 # the specific heat constant at constant pressure
 Rd = 287.06			 # the gas constant of dry air
@@ -212,7 +212,7 @@ f_q_ave = (f_q[0:nlevs-1,:,:] + f_q[1:,:,:])*0.5
 mdp = -(ref_pres[0:nlevs-1,:,:] - ref_pres[1:,:,:])
 
 lat_rv = (2.0*pi/360.0)*lat
-vdx = abs((6371000.0*2.0*pi*np.cos(lat_rv)))/nlons
+vdx = abs((6371000.0*2.0*pi*np.cos(lat_rv)))/float(nlons)
 
 mda2d = (np.outer(vdx,np.ones((nlons)))) * dy
 mda = np.zeros((nlevs-1,nlats,nlons))
@@ -234,13 +234,13 @@ elif calc_style==2: # Ollinaho's style [J/kg*Pa], dp=1Pa
 
 deltaE2 = (du2 + dv2 + dt2 + dq2) + dlnp2
 print('########################### output')
-print ' ', du2, ' u-wind'
-print ' ', dv2, ' v-wind'
-print ' ', dt2, ' temperature'
-print ' ', dq2, ' specific humidity'
-print '+', dlnp2, ' logarithm of surface pressure'
+print(' ', du2, ' u-wind')
+print(' ', dv2, ' v-wind')
+print(' ', dt2, ' temperature')
+print(' ', dq2, ' specific humidity')
+print('+', dlnp2, ' logarithm of surface pressure')
 print('--------------------------')
-print ' ', deltaE2, ' moist total energy norm'
+print(' ', deltaE2, ' moist total energy norm')
 
 # The value of the cost function is written into a file named score.dat here.
 dten = np.zeros(1)

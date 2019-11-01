@@ -18,32 +18,57 @@
 # GENERAL
 # --------------------------------------------------------------
 # Basics
-#EXPL="EPPES_on_sisu"  # Long exp name
-EXPL="parest_conv_MTEN_jan2017_EPPES_20_n3"
-EXPS="part"       # 4 letter exp name
-SDATE=2017010100  # Exp start date
-EDATE=2017013112  # Exp end   date
-DSTEP=12          # Hours between ensembles
+#EXPL="test_5_par"
+#EXPL="test_rmse"  # Long exp name
+#EXPL="parest_conv_MTEN_jan2017_EPPES_20_n3"
+#EXPL="publ_conv_tests/EPPES/converged_pars_test/level1/20mem_144h"
+#EXPL="benchmarks/level2/20mem_144h"
+#EXPL="publ_conv_tests/EPPES/level25/50mem_48h"
+#EXPL="publ_conv_tests/EPPES/level2/rmsez850/50mem_48h"
+#EXPL="publ_conv_tests/EPPES/level2/20mem_48h_4"
+#EXPL="publ_conv_tests/EPPES/level2/bad_parameters/26mem_24h_u"
+#EXPL="publ_conv_tests/EPPES/one_parameter/ENTSHALP/level1/50mem_48h"
+#EXPL="publ_conv_tests/EPPES/level1/rmse_z_850/50mem_48h"
+
+#EXPL="publ_conv_tests/EPPES/final_test/20mem_24h_t159_5par_a" #: 5 parameters, yes IC perturbations, no SPPT; ENTSHALP:+10%, ENTRORG:+10%, DETRPEN:+10%, RPRCON:+10%, RDEPTHS:+10%
+#EXPL="publ_conv_tests/EPPES/final_test/20mem_24h_t159_5par_b" #: 5 parameters, yes IC perturbations, no SPPT; ENTSHALP:+10%, ENTRORG:-10%, DETRPEN:-10%, RPRCON:-10%, RDEPTHS:+10%
+#EXPL="publ_conv_tests/EPPES/final_test/20mem_24h_t159_5par_c" #: 5 parameters, yes IC perturbations, no SPPT; ENTSHALP:-10%, ENTRORG:-10%, DETRPEN:+10%, RPRCON:+10%, RDEPTHS:-10%
+#EXPL="publ_conv_tests/EPPES/final_test/20mem_24h_t159_5par_d" #: 5 parameters, yes IC perturbations, no SPPT; ENTSHALP:-10%, ENTRORG:+10%, DETRPEN:-10%, RPRCON:-10%, RDEPTHS:-10%
+
+EXPL="publ_conv_tests/EPPES/final_test/20mem_24h_t399_5par_d" #: 5 parameters, yes IC perturbations, no SPPT; ENTSHALP:-10%, ENTRORG:+10%, DETRPEN:-10%, RPRCON:-10%, RDEPTHS:-10%
+
+EXPS="t39d"       # 4 letter exp name
+SDATE=2016120100  # Exp start date
+EDATE=2017113000  # Exp end   date
+#EDATE=2016120800
+DSTEP=168          # Hours between ensembles
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])
-RES=159
+RES=399 #159
 LEV=91
-FCLEN=72
+FCLEN=72 #24
+
+# Experiment type ('C' for convergence test, 'O' for parameter optimization)
+EXPTYPE='C'
+
+# Target function used in the experiment
+COSTFUNCTION='MTEN'
 
 # Ensemble size (CTRL is always member 0, so real size is ENS+1)
 ENS=20
 
 # Folder for modded scripts (e.g. "parest", when scripts are in /scripts-parest/)
-SCR_MOD="parest"
+SCR_MOD="parest_dev"
 
 # Version
 OIFSv=40r1v1
 
 # Model bin
 #MODEL_EXE=/appl/earth/openifs/intel-16.0.0/intelmpi-5.1.1/38r1v04/bin/master.exe
-MODEL_EXE=/proj/atm/lauri/oifs40r1v1/cce/8.5.6/bin/master.exe
+#MODEL_EXE=/proj/atm/lauri/oifs40r1v1/cce/8.5.6/bin/master.exe
+MODEL_EXE=/appl/earth/openifs/40r1v1.1/intel-16.0.0/intelmpi-5.1.1/bin/master.exe
 
-export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
+export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS EXPTYPE COSTFUNCTION
 
 
 
@@ -51,22 +76,24 @@ export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
 # RESOURCES
 # --------------------------------------------------------------
 # Number of nodes or number of cores per model
-NNODES=7
+#NNODES=3
 # or
-#CPUSTOT=24
+CPUSTOT=72
 
 # CPUs per single model
-CPUSPERMODEL=24
+CPUSPERMODEL=72
 
 # Time allocation, either specify run time of a single model instance [min]
 # or estimate bulk time (HH:MM:SS). NOTE: use TIMEFORMODEL with caution,
 # see the time estimation formula in env.-configuration file.
 TIMEFORMODEL=
 # or
-EXPTIME="12:00:00"
+EXPTIME="72:00:00"
+#EXPTIME="40:00:00"
+#EXPTIME="00:20:00"
 
 # Which queue to submit the job to
-BATCHQUEUE=small
+BATCHQUEUE=parallel #longrun
 
 export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 
@@ -77,7 +104,11 @@ export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 # --------------------------------------------------------------
 # Model structure and programs that are needed
 REQUIRE_DIRS="WORK SCRI DATA SRC BIN"
-REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash  par_init.bash par_gen.bash par_set.bash MTEN.py"
+if [ $COSTFUNCTION == 'MTEN' ]; then
+  REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash  par_init.bash par_gen.bash par_set.bash MTEN.py"
+elif [ $COSTFUNCTION == 'RMSE_z' ]; then
+  REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash  par_init.bash par_gen.bash par_set.bash RMSE_z.py"
+fi
 REQUIRE_NAMEL="namelist_general.bash namelist_${OIFSv}.bash"
 
 
@@ -98,12 +129,11 @@ REQUIRE_VARS="$REQUIRE_VARS EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS NNODES
 # --------------------------------------------------------------
 
 # Stochastic physics
-LSPPT="true"
+LSPPT="false"
 LSKEB="false" # "true" does not work with cy38r1
 
 # Initial state perturbations
 export INIPERT=1
-
 
 
 # --------------------------------------------------------------
@@ -118,13 +148,13 @@ NHISTS=0
 
 # Model level variables and model levels
 # (leave VARSX as "" if no output is desired)
-VARSM="129 130 131 132 54 133"   # String list with spaces in between
+VARSM="130 131 132 54 133"   # String list with spaces in between
 LEVSM=$(echo $(seq 19)) # String list with spaces in between
 LEVSM="-99"
 
 # Pressure level variables and pressure levels (in Pa)
-VARSP=""
-LEVSP="50000.0 92500.0"
+VARSP="129"
+LEVSP="85000.0"
 
 # Surface level dynamic variables
 VARSS="" #129 152"
@@ -156,7 +186,6 @@ done
 
 # EPPES bin
 EPPES_EXE=/proj/atm/lauri/EPPESPY/eppesroutine.py
-#EPPES_EXE=/homeappl/home/lautuppi/appl_taito/EPPESPY/eppesroutine.py
 
 LPAR="true"
 

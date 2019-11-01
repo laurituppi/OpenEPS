@@ -19,30 +19,32 @@
 # GENERAL
 # --------------------------------------------------------------
 # Basics
-EXPL="EPS_test2_t159"  # Long exp name
+EXPL="EPS_crps"  # Long exp name
 EXPS="eps2"           # 4 letter exp name
-SDATE=2017080100  # Exp start date
-EDATE=2017080112  # Exp end   date
+SDATE=2016120100  # Exp start date
+EDATE=2016120100  # Exp end   date
 DSTEP=12          # Hours between ensembles
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])
 RES=159
 LEV=91
-FCLEN=48
+FCLEN=72
 
 # Ensemble size (CTRL is always member 0, so real size is ENS+1)
-ENS=6
+ENS=3
+
+AN_STEP=6
 
 # Folder for modded scripts (e.g. "parest", when scripts are in /scripts-parest/)
-SCR_MOD=""
+SCR_MOD="crps_dev"
 
 # Version
-OIFSv=38r1v04 #40r1v1
+OIFSv=40r1v1
 
 # Model bin (use default set in env-file if left blank)
 MODEL_EXE=
 
-export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
+export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS AN_STEP
 
 
 
@@ -50,12 +52,12 @@ export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS
 # RESOURCES
 # --------------------------------------------------------------
 # Number of nodes or number of cores per model
-NNODES=
+NNODES=2
 # or
-CPUSTOT=48
+CPUSTOT=
 
 # CPUs per single model
-CPUSPERMODEL=12
+CPUSPERMODEL=24
 
 # Define OMP level and whether to use DR_HOOK or not
 OMP_NUM_THREADS=1
@@ -66,7 +68,7 @@ DR_HOOK=1
 # see the time estimation formula in env.-configuration file.
 TIMEFORMODEL=
 # or
-EXPTIME="00:20:00"
+EXPTIME="00:10:00"
 
 # Which queue to submit the job to
 # (use default set in env-file if left blank)
@@ -81,7 +83,7 @@ export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 # --------------------------------------------------------------
 # Model structure and programs that are needed
 REQUIRE_DIRS="WORK SCRI DATA SRC BIN"
-REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash"
+REQUIRE_ITEMS="main.bash link.bash run.bash mandtg util_tools.bash define_makefile ppro.bash ppro_ens.bash 360x181_grid.txt"
 REQUIRE_NAMEL="namelist_general.bash namelist_${OIFSv}.bash"
 
 
@@ -115,8 +117,8 @@ export INIPERT=1
 # --------------------------------------------------------------
 
 # Output frequency (6=1h, 36=6h, 72=12h)
-NFRPOS=12
-NFRHIS=12
+NFRPOS=6
+NFRHIS=6
 NPOSTS=0
 NHISTS=0
 
@@ -127,8 +129,8 @@ LEVSM=$(echo $(seq 19)) # String list with spaces in between
 LEVSM="-99"
 
 # Pressure level variables and pressure levels (in Pa)
-VARSP="129 130 133"
-LEVSP="50000.0 92500.0"
+VARSP="129 130 131 132 133"
+LEVSP="10000.0 20000.0 50000.0 70000.0 85000.0 100000.0"
 
 # Surface level dynamic variables
 VARSS="" #129 152"
