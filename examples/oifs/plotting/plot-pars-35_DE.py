@@ -111,8 +111,8 @@ for i in range(npars):
     #elif i==1:
     #  axes.set_ylim([-0.001,0.003])
 
-    plt.xlabel('Initialisation date')
-    plt.xticks((al, bl, cl, dl, el, fl), (a, b, c, d, e, f), rotation='352')
+    plt.xlabel('Number of iterations')
+    #plt.xticks((al, bl, cl, dl, el, fl), (a, b, c, d, e, f), rotation='352')
     if pars[i]=='ENTSHALP':
       plt.ylabel('Parameter value')
     elif pars[i]=='ENTRORG':

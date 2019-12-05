@@ -15,7 +15,7 @@ fi
 #ln -sf $EPPES_EXE $DATA/eppes/eppes_routine
 ln -sf $EPPES_EXE $DATA/eppes/eppesroutine.py
 
-if [ 0 -eq 1 ]; then
+if [ $NUMBER_OF_PARS -eq 2 ]; then
   #mufile----------------------------------------------------------------
   #printf "%s\n" "2.0" > $DATA/eppes/mufile.dat
   printf "%s\n" "2.2" > $DATA/eppes/mufile.dat
@@ -61,7 +61,7 @@ if [ 0 -eq 1 ]; then
   printf "%s\n" "0.05" > $DATA/eppes/maxstep.dat
 fi
 
-if [ 1 -eq 1 ]; then
+if [ $NUMBER_OF_PARS -eq 5 ]; then
 
   a=1.1
   b=0.9
@@ -72,11 +72,11 @@ if [ 1 -eq 1 ]; then
   default4=0.0014 # RPRCON
   default5=2.0 # RDEPTHS #oikeasti 20000, ks. par_set.bash
   rcalc() { awk "BEGIN{print $*}"; }
-  mean1=$(rcalc $default1*$b)
+  mean1=$(rcalc $default1*$a)
   mean2=$(rcalc $default2*$a)
-  mean3=$(rcalc $default3*$b)
-  mean4=$(rcalc $default4*$b)
-  mean5=$(rcalc $default5*$b)
+  mean3=$(rcalc $default3*$a)
+  mean4=$(rcalc $default4*$a)
+  mean5=$(rcalc $default5*$a)
   printf "%s\n" "$mean1" > $DATA/eppes/mufile.dat
   printf "%s\n" "$mean2" >> $DATA/eppes/mufile.dat
   printf "%s\n" "$mean3" >> $DATA/eppes/mufile.dat
@@ -100,6 +100,69 @@ if [ 1 -eq 1 ]; then
   printf "%s\n" "0        0        1        0        0" >> $DATA/eppes/wfile.dat
   printf "%s\n" "0        0        0        1        0" >> $DATA/eppes/wfile.dat
   printf "%s\n" "0        0        0        0        1" >> $DATA/eppes/wfile.dat
+
+  printf "%s\n" "5" > $DATA/eppes/nfile.dat
+
+  printf "%s\n" "0.05" > $DATA/eppes/maxstep.dat
+fi
+
+if [ $NUMBER_OF_PARS -eq 8 ]; then
+
+  a=1.1
+  b=0.9
+
+  default1=2.0 # ENTSHALP
+  default2=0.00175 # ENTRORG
+  default3=0.000075 # DETRPEN
+  default4=0.0014 # RPRCON
+  default5=2.0 # RDEPTHS #oikeasti 20000, ks. par_set.bash
+  default6=0.3 # RMFDEPS
+  default7=0.9 # RHEBC
+  default8=0.0003 # ENTRDD
+  rcalc() { awk "BEGIN{print $*}"; }
+  mean1=$(rcalc $default1*$a)
+  mean2=$(rcalc $default2*$b)
+  mean3=$(rcalc $default3*$a)
+  mean4=$(rcalc $default4*$b)
+  mean5=$(rcalc $default5*$a)
+  mean6=$(rcalc $default6*$a)
+  mean7=$(rcalc $default7*$b)
+  mean8=$(rcalc $default8*$b)
+  printf "%s\n" "$mean1" > $DATA/eppes/mufile.dat
+  printf "%s\n" "$mean2" >> $DATA/eppes/mufile.dat
+  printf "%s\n" "$mean3" >> $DATA/eppes/mufile.dat
+  printf "%s\n" "$mean4" >> $DATA/eppes/mufile.dat
+  printf "%s\n" "$mean5" >> $DATA/eppes/mufile.dat
+  printf "%s\n" "$mean6" >> $DATA/eppes/mufile.dat
+  printf "%s\n" "$mean7" >> $DATA/eppes/mufile.dat
+  printf "%s\n" "$mean8" >> $DATA/eppes/mufile.dat
+
+  printf "%s\n" "0.5625    0.0          0.0        0.0         0.0        0.0         0.0        0.0" > $DATA/eppes/sigfile.dat
+  printf "%s\n" "0.0       1.40625E-07  0.0        0.0         0.0        0.0         0.0        0.0" >> $DATA/eppes/sigfile.dat
+  printf "%s\n" "0.0       0.0          2.25E-10   0.0         0.0        0.0         0.0        0.0" >> $DATA/eppes/sigfile.dat
+  printf "%s\n" "0.0       0.0          0.0        7.84E-08    0.0        0.0         0.0        0.0" >> $DATA/eppes/sigfile.dat
+  printf "%s\n" "0.0       0.0          0.0        0.0         0.16       0.0         0.0        0.0" >> $DATA/eppes/sigfile.dat #0.16E+08
+  printf "%s\n" "0.0       0.0          0.0        0.0         0.0        0.08        0.0        0.0" >> $DATA/eppes/sigfile.dat
+  printf "%s\n" "0.0       0.0          0.0        0.0         0.0        0.0         0.01       0.0" >> $DATA/eppes/sigfile.dat
+  printf "%s\n" "0.0       0.0          0.0        0.0         0.0        0.0         0.0        0.65E-09" >> $DATA/eppes/sigfile.dat
+
+  printf "%s\n" "0.5        6.0" > $DATA/eppes/bounds.dat
+  printf "%s\n" "1.0E-04   1.0E-02" >> $DATA/eppes/bounds.dat
+  printf "%s\n" "1.0E-05   1.0E-03" >> $DATA/eppes/bounds.dat
+  printf "%s\n" "1.0E-04   1.0E-02" >> $DATA/eppes/bounds.dat
+  printf "%s\n" "0.1       6.0" >> $DATA/eppes/bounds.dat
+  printf "%s\n" "0.1       0.7" >> $DATA/eppes/bounds.dat
+  printf "%s\n" "0.5       1.0" >> $DATA/eppes/bounds.dat
+  printf "%s\n" "0.00003   0.003" >> $DATA/eppes/bounds.dat
+
+  printf "%s\n" "1        0        0        0        0        0        0        0" > $DATA/eppes/wfile.dat
+  printf "%s\n" "0        1        0        0        0        0        0        0" >> $DATA/eppes/wfile.dat
+  printf "%s\n" "0        0        1        0        0        0        0        0" >> $DATA/eppes/wfile.dat
+  printf "%s\n" "0        0        0        1        0        0        0        0" >> $DATA/eppes/wfile.dat
+  printf "%s\n" "0        0        0        0        1        0        0        0" >> $DATA/eppes/wfile.dat
+  printf "%s\n" "0        0        0        0        0        1        0        0" >> $DATA/eppes/wfile.dat
+  printf "%s\n" "0        0        0        0        0        0        1        0" >> $DATA/eppes/wfile.dat
+  printf "%s\n" "0        0        0        0        0        0        0        1" >> $DATA/eppes/wfile.dat
 
   printf "%s\n" "5" > $DATA/eppes/nfile.dat
 

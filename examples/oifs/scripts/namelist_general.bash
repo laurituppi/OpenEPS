@@ -159,6 +159,9 @@ if [ ! -z $LPAR ] && [ $LPAR == "true" ] && [ $imem -gt 0 ]; then
       DETRPEN=0.75E-04,
       RPRCON=1.4E-03,
       RDEPTHS=20000.0,
+      RMFDEPS=0.3,
+      RHEBC=0.9,
+      ENTRDD=0.0003,
     /"
 
 else

@@ -18,16 +18,16 @@ module purge
 #export XDG_RUNTIME_DIR=/tmp/lautuppi/runtime-lautuppi
 #export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
 
-if [ 1 -eq 1 ]; then # perus EPPES tai DE konvergenssitestin plottaus
+if [ 0 -eq 1 ]; then # perus EPPES tai DE konvergenssitestin plottaus
   #module load python/2.7.13-gnu620 bioconda #Sisussa
   #export XDG_RUNTIME_DIR=/tmp/lautuppi/runtime-lautuppi
   #source activate /wrk/lautuppi/DONOTREMOVE/sisu-conda-envs/eppes
   source $WRKDIR/DONOTREMOVE/miniconda3/etc/profile.d/conda.sh
   conda activate eppes_python_3
   npars=5
-  nens=20
-  fclen=24
-  dir=${nens}mem_${fclen}h_t159_5par_a
+  nens=50
+  fclen=48
+  dir=${nens}mem_${fclen}h
   dv1=2.0
   dv2=0.00175
   dv3=0.75e-04
@@ -36,13 +36,13 @@ if [ 1 -eq 1 ]; then # perus EPPES tai DE konvergenssitestin plottaus
 
   #eppesdir=/wrk/lautuppi/openEPS/publ_conv_tests/DE/$dir/data/eppes
   #eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/EPPES/level2_rmsez850/$dir/
-  #eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/EPPES/level25/failed/$dir/
+  eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/DE/level25/failed/$dir/
   #eppesdir=/wrk/lautuppi/openEPS/benchmarks/$dir/data/eppes
   #eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/DE/level2/bad_parameters/uusinta/$dir/
   #eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/EPPES/level2/$dir/
   #eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/EPPES/level1/rmse_z_850/$dir
   #eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/EPPES/level1/only_ENTSHALP/$dir
-  eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/EPPES/final_test/$dir/
+  #eppesdir=/wrk/lautuppi/DONOTREMOVE/publ_conv_tests/EPPES/final_test/$dir/
   inputdir=$eppesdir/eppesdata
   inifiles=$eppesdir/init/
 
@@ -52,15 +52,16 @@ if [ 1 -eq 1 ]; then # perus EPPES tai DE konvergenssitestin plottaus
   #outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/DE/level2/bad_parameters/uusinta/$dir
   #outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/EPPES/level2_rmsez850/$dir
   #outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/EPPES/level2/$dir
-  #outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/EPPES/level25/failed/$dir
+  outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/DE/level25/failed/$dir
   #outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/EPPES/level1/rmse_z_850/$dir/
   #outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/EPPES/level1/only_ENTSHALP/$dir/
-  outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/EPPES/final_test/$dir/
+  #outputdir=/homeappl/home/lautuppi/appl_sisu/figures/OpenEPS/publ_conv_tests/EPPES/final_test/$dir/
   test -d $outputdir || mkdir -p $outputdir
 
   #python3 plot-pars-3_EPPES.py ${npars} ${nens} ${inputdir} ${outputdir} ${dv1} ${dv2}
 
-  python3 plot-pars-35_EPPES.py ${npars} ${nens} ${inputdir} ${outputdir} ${inifiles} ${dv1} ${dv2} ${dv3} ${dv4} ${dv5} 
+  #python3 plot-pars-35_EPPES.py ${npars} ${nens} ${inputdir} ${outputdir} ${inifiles} ${dv1} ${dv2} ${dv3} ${dv4} ${dv5} 
+  python3 plot-pars-35_DE.py ${npars} ${nens} ${inputdir} ${outputdir} ${dv1} ${dv2} ${dv3} ${dv4} ${dv5} 
 
 elif [ 0 -eq 1 ]; then # 2D parvien plottaus jokaiselta konvergenssitestin iteraatiolta
   source activate eppes_own
@@ -155,7 +156,7 @@ elif [ 0 -eq 1 ]; then # Leutbecherin fair CRPS:n laskeminen
   done
   #python3 fair_crps.py $nens $inputdir $outputdir $parameter $name
 
-elif [ 0 -eq 1 ]; then
+elif [ 1 -eq 1 ]; then
   #module load python/2.7.13-gnu620 bioconda
   #export XDG_RUNTIME_DIR=/tmp/lautuppi/runtime-lautuppi
   #source activate /wrk/lautuppi/DONOTREMOVE/sisu-conda-envs/eppes

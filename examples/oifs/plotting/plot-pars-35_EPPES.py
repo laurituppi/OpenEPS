@@ -79,7 +79,7 @@ fl = ndays-1
 
 pars = ['ENTSHALP','ENTRORG','DETRPEN','RPRCON','RDEPTHS']
 
-if (0==1):
+if (1==1):
   for i in range(npars):
       #sample_data_0 = np.copy(sample_data)
       #sample_data_1 = np.copy(sample_data)
@@ -144,7 +144,7 @@ if (0==1):
       #elif i==1:
       #  axes.set_ylim([-0.001,0.005])
 
-      plt.xlabel('Iteration number')
+      plt.xlabel('Number of iterations')
       #plt.xticks((al, bl, cl, dl, el, fl), (a, b, c, d, e, f), rotation='352')
       if pars[i]=='ENTSHALP':
         plt.ylabel('Parameter value')
@@ -173,7 +173,7 @@ if (0==1):
       #plt.savefig(outputdir + '/parameter' + str(i+1) + '.pdf', dpi=300, format='pdf')
       plt.clf()
 
-if (1==1):
+if (0==1):
   for j in range(npars):
     mu_data[:,j] = mu_data[:,j]/def_values[j]
     sample_data[:,:,j] = sample_data[:,:,j]/def_values[j]

@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import sys
 import os
+
+plt.rcParams.update({'font.size': 18})
 # tunge tanne viela se rmsez850 jonkinlaisina kayrina. posteriin ei mahdu enempaa kuvia
 
 indir0 = sys.argv[1]
@@ -95,11 +97,9 @@ fl = ndays-1
 
 pars = ['ENTSHALP','ENTRORG']
 
-if 0==1:
+if 0==1: ##### Levels: colorfill option #####
   for i in range(npars):
       print('processing parameter:', pars[i])
-      #print mu_data3[:,i]
-      #plt.figure()
       fig, ax=plt.subplots(figsize=(10,7.9))
 
       #plt.plot(t, mu_data0[:,i]-2*np.sqrt(sig_data0[:,i,i]), 'b.-', linewidth=1.0, label='level 0')
@@ -139,15 +139,14 @@ if 0==1:
 
       ax.legend(loc=0)#, fontsize = 'small')
 
-      #axes = plt.gca()
       ax.set_xlim([0.0,ndays+1])
-      plt.rcParams.update({'font.size': 18})
+
       fig.savefig('new_figures/parameter' + str(i+1) + 'levs.eps', dpi=300, format='eps')
       fig.savefig('new_figures/parameter' + str(i+1) + 'levs.png', dpi=300, format='png')
       fig.savefig('new_figures/parameter' + str(i+1) + 'levs.pdf', dpi=300, format='pdf')
       fig.clf()
 
-if 1==1:
+if 1==1: ##### Levels: different linestyles #####
   mu_data0[:,1]=mu_data0[:,1]*1000
   mu_data1[:,1]=mu_data1[:,1]*1000
   mu_data2[:,1]=mu_data2[:,1]*1000
@@ -158,13 +157,12 @@ if 1==1:
   sig_data2[:,1,1]=sig_data2[:,1,1]*1000000
   sig_data3[:,1,1]=sig_data3[:,1,1]*1000000
   sig_data4[:,1,1]=sig_data4[:,1,1]*1000000
-  for i in range(1,-1,-1):
-  #for i in range(npars):
+  for i in range(npars):
     print('processing parameter:', pars[i])
 
     fig, ax=plt.subplots(figsize=(10,7.9))
 
-    if 0==1:
+    if 0==1: ##### Various symbols with different colors #####
       ax.plot(t, mu_data0[:,i], 'bX-', linewidth=1.5, markersize=6.0, label='level 0; $\mu$, $\mu \pm 2\sigma$')
       ax.plot(t, mu_data1[:,i], 'md-', linewidth=1.5, markersize=6.0, label='level 1; $\mu$, $\mu \pm 2\sigma$')
       ax.plot(t, mu_data2[:,i], 'ro-', linewidth=1.5, markersize=6.0, label='level 2; $\mu$, $\mu \pm 2\sigma$')
@@ -173,7 +171,8 @@ if 1==1:
       ax.plot(t, mu_data1[:,i]-2*np.sqrt(sig_data1[:,i,i]), 'md', t,  mu_data1[:,i]+2*np.sqrt(sig_data1[:,i,i]), 'md')
       ax.plot(t, mu_data2[:,i]-2*np.sqrt(sig_data2[:,i,i]), 'ro', t,  mu_data2[:,i]+2*np.sqrt(sig_data2[:,i,i]), 'ro')
       ax.plot(t, mu_data3[:,i]-2*np.sqrt(sig_data3[:,i,i]), 'ys', t,  mu_data3[:,i]+2*np.sqrt(sig_data3[:,i,i]), 'ys')
-    elif 0==1:
+      ax.plot(t, def_values[:,i], 'g.', linewidth=1.5, label='default value')
+    elif 0==1: ##### Pluses with different colors #####
       ax.plot(t, mu_data0[:,i], 'b.-', linewidth=1.5, markersize=8.0, label='level 0, $\mu \pm 2\sigma$')
       ax.plot(t, mu_data1[:,i], 'm.-', linewidth=1.5, markersize=8.0, label='level 1, $\mu \pm 2\sigma$')
       ax.plot(t, mu_data2[:,i], 'r.-', linewidth=1.5, markersize=8.0, label='level 2, $\mu \pm 2\sigma$')
@@ -182,7 +181,8 @@ if 1==1:
       ax.plot(t, mu_data1[:,i]-2*np.sqrt(sig_data1[:,i,i]), 'mP', t,  mu_data1[:,i]+2*np.sqrt(sig_data1[:,i,i]), 'mP')
       ax.plot(t, mu_data2[:,i]-2*np.sqrt(sig_data2[:,i,i]), 'rP', t,  mu_data2[:,i]+2*np.sqrt(sig_data2[:,i,i]), 'rP')
       ax.plot(t, mu_data3[:,i]-2*np.sqrt(sig_data3[:,i,i]), 'yP', t,  mu_data3[:,i]+2*np.sqrt(sig_data3[:,i,i]), 'yP')
-    elif 1==1:
+      ax.plot(t, def_values[:,i], 'g.', linewidth=1.5, label='default value')
+    elif 0==1: ##### Solid lines for mean values and dash dotted lines for uncertainties, different shades of gray #####
       ax.plot(t, mu_data0[:,i], 'k-', linewidth=2.5, label='L0; $\mu$, $\mu \pm 2\sigma$')
       ax.plot(t, mu_data1[:,i], c='0.25', linestyle='-', linewidth=2.5, label='L1; $\mu$, $\mu \pm 2\sigma$')
       ax.plot(t, mu_data2[:,i], c='0.5', linestyle='-', linewidth=2.5, label='L2; $\mu$, $\mu \pm 2\sigma$')
@@ -195,26 +195,131 @@ if 1==1:
       ax.plot(t, mu_data2[:,i]+2*np.sqrt(sig_data2[:,i,i]), c='0.5', linestyle='-.', linewidth=2.5)
       ax.plot(t, mu_data3[:,i]-2*np.sqrt(sig_data3[:,i,i]), c='0.75', linestyle='-.', linewidth=2.5)
       ax.plot(t, mu_data3[:,i]+2*np.sqrt(sig_data3[:,i,i]), c='0.75', linestyle='-.', linewidth=2.5)
+      ax.plot(t, def_values[:,i], 'g.', linewidth=1.5, label='default value')
+    elif 0==1: ##### Solid lines for mean values and dash dotted lines for uncertainties, different shades of brown #####
+      ax.plot(t, mu_data0[:,i], c='saddlebrown', linestyle='-', linewidth=2.5, label='L0; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data1[:,i], c='chocolate', linestyle='-', linewidth=2.5, label='L1; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data2[:,i], c='burlywood', linestyle='-', linewidth=2.5, label='L2; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data3[:,i], c='wheat', linestyle='-', linewidth=2.5, label='L3; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data0[:,i]-2*np.sqrt(sig_data0[:,i,i]), c='saddlebrown', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data0[:,i]+2*np.sqrt(sig_data0[:,i,i]), c='saddlebrown', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i]-2*np.sqrt(sig_data1[:,i,i]), c='chocolate', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i]+2*np.sqrt(sig_data1[:,i,i]), c='chocolate', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i]-2*np.sqrt(sig_data2[:,i,i]), c='burlywood', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i]+2*np.sqrt(sig_data2[:,i,i]), c='burlywood', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i]-2*np.sqrt(sig_data3[:,i,i]), c='wheat', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i]+2*np.sqrt(sig_data3[:,i,i]), c='wheat', linestyle='-.', linewidth=2.5)
+      ax.plot(t, def_values[:,i], 'g.', linewidth=1.5, label='default value')
+    elif 0==1: ##### Solid lines for mean values and dash dotted lines for uncertainties, different shades of green #####
+      ax.plot(t, mu_data0[:,i], c='darkgreen', linestyle='-', linewidth=2.5, label='L0; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data1[:,i], c='#238b45', linestyle='-', linewidth=2.5, label='L1; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data2[:,i], c='#66c2a4', linestyle='-', linewidth=2.5, label='L2; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data3[:,i], c='#b2e2e2', linestyle='-', linewidth=2.5, label='L3; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data0[:,i]-2*np.sqrt(sig_data0[:,i,i]), c='darkgreen', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data0[:,i]+2*np.sqrt(sig_data0[:,i,i]), c='darkgreen', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i]-2*np.sqrt(sig_data1[:,i,i]), c='#238b45', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i]+2*np.sqrt(sig_data1[:,i,i]), c='#238b45', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i]-2*np.sqrt(sig_data2[:,i,i]), c='#66c2a4', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i]+2*np.sqrt(sig_data2[:,i,i]), c='#66c2a4', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i]-2*np.sqrt(sig_data3[:,i,i]), c='#b2e2e2', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i]+2*np.sqrt(sig_data3[:,i,i]), c='#b2e2e2', linestyle='-.', linewidth=2.5)
+      ax.plot(t, def_values[:,i], 'm.', linewidth=1.5, label='default value')
+    elif 0==1: ##### Solid lines for mean values and dash dotted lines for uncertainties, different colors #####
+      ax.plot(t, mu_data0[:,i], c='#7fc97f', linestyle='-', linewidth=2.5, label='L0; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data1[:,i], c='#beaed4', linestyle='-', linewidth=2.5, label='L1; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data2[:,i], c='#fdc086', linestyle='-', linewidth=2.5, label='L2; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data3[:,i], c='#ffff99', linestyle='-', linewidth=2.5, label='L3; $\mu$, $\mu \pm 2\sigma$')
+      ax.plot(t, mu_data0[:,i]-2*np.sqrt(sig_data0[:,i,i]), c='#7fc97f', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data0[:,i]+2*np.sqrt(sig_data0[:,i,i]), c='#7fc97f', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i]-2*np.sqrt(sig_data1[:,i,i]), c='#beaed4', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i]+2*np.sqrt(sig_data1[:,i,i]), c='#beaed4', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i]-2*np.sqrt(sig_data2[:,i,i]), c='#fdc086', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i]+2*np.sqrt(sig_data2[:,i,i]), c='#fdc086', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i]-2*np.sqrt(sig_data3[:,i,i]), c='#ffff99', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i]+2*np.sqrt(sig_data3[:,i,i]), c='#ffff99', linestyle='-.', linewidth=2.5)
+      ax.plot(t, def_values[:,i], 'm.', linewidth=1.5, label='default value')
+    elif 0==1: ##### Solid lines for mean values and dash dotted lines for uncertainties, different shades of green and brown #####
+      ax.plot(t, mu_data0[:,i], c='darkgreen', linestyle='-', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i], c='#238b45', linestyle='-', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i], c='#66c2a4', linestyle='-', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i], c='#b2e2e2', linestyle='-', linewidth=2.5)
+      ax.plot(t, mu_data0[:,i]-2*np.sqrt(sig_data0[:,i,i]), c='saddlebrown', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data0[:,i]+2*np.sqrt(sig_data0[:,i,i]), c='saddlebrown', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i]-2*np.sqrt(sig_data1[:,i,i]), c='chocolate', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data1[:,i]+2*np.sqrt(sig_data1[:,i,i]), c='chocolate', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i]-2*np.sqrt(sig_data2[:,i,i]), c='burlywood', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data2[:,i]+2*np.sqrt(sig_data2[:,i,i]), c='burlywood', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i]-2*np.sqrt(sig_data3[:,i,i]), c='wheat', linestyle='-.', linewidth=2.5)
+      ax.plot(t, mu_data3[:,i]+2*np.sqrt(sig_data3[:,i,i]), c='wheat', linestyle='-.', linewidth=2.5)
+      ax.plot(t, def_values[:,i], 'm.', linewidth=1.5, label='default value')
 
-    ax.plot(t, def_values[:,i], 'g.', linewidth=1.5, label='default value')
+      lines = ax.get_lines()
+      legend1 = ax.legend([lines[i] for i in [0,1,2,3,12]], ['L0; $\mu$', 'L1; $\mu$', 'L2; $\mu$', 'L3; $\mu$', 'default value'], loc=1)
+      legend2 = ax.legend([lines[i] for i in [4,6,8,10]], ['L0; $\mu \pm 2\sigma$', 'L1; $\mu \pm 2\sigma$', 'L2; $\mu \pm 2\sigma$', 'L3; $\mu \pm 2\sigma$'], loc=4)
+      ax.add_artist(legend1)
+      ax.add_artist(legend2)
+    elif 1==1: ##### Separate figures for mean values and uncertainties #####
+      fig2, ax2=plt.subplots(figsize=(10,7.9))
+      ax.plot(t, mu_data0[:,i], c='darkgreen', linestyle='-', linewidth=2.5, label='L0; $\mu$')
+      ax.plot(t, mu_data1[:,i], c='#238b45', linestyle='-', linewidth=2.5, label='L1; $\mu$')
+      ax.plot(t, mu_data2[:,i], c='#66c2a4', linestyle='-', linewidth=2.5, label='L2; $\mu$')
+      ax.plot(t, mu_data3[:,i], c='#b2e2e2', linestyle='-', linewidth=2.5, label='L3; $\mu$')
+      ax.plot(t, def_values[:,i], 'm.', linewidth=1.5, label='default value')
+      ax2.plot(t, mu_data0[:,i]-2*np.sqrt(sig_data0[:,i,i]), c='saddlebrown', linestyle='-', linewidth=2.5, label='L0; $\mu \pm 2\sigma$')
+      ax2.plot(t, mu_data0[:,i]+2*np.sqrt(sig_data0[:,i,i]), c='saddlebrown', linestyle='-', linewidth=2.5)
+      ax2.plot(t, mu_data1[:,i]-2*np.sqrt(sig_data1[:,i,i]), c='chocolate', linestyle='-', linewidth=2.5, label='L1; $\mu \pm 2\sigma$')
+      ax2.plot(t, mu_data1[:,i]+2*np.sqrt(sig_data1[:,i,i]), c='chocolate', linestyle='-', linewidth=2.5)
+      ax2.plot(t, mu_data2[:,i]-2*np.sqrt(sig_data2[:,i,i]), c='burlywood', linestyle='-', linewidth=2.5, label='L2; $\mu \pm 2\sigma$')
+      ax2.plot(t, mu_data2[:,i]+2*np.sqrt(sig_data2[:,i,i]), c='burlywood', linestyle='-', linewidth=2.5)
+      ax2.plot(t, mu_data3[:,i]-2*np.sqrt(sig_data3[:,i,i]), c='wheat', linestyle='-', linewidth=2.5, label='L3; $\mu \pm 2\sigma$')
+      ax2.plot(t, mu_data3[:,i]+2*np.sqrt(sig_data3[:,i,i]), c='wheat', linestyle='-', linewidth=2.5)
+      ax2.plot(t, def_values[:,i], 'm.', linewidth=1.5, label='default value')
 
-    ax.set_xlabel('Number of ensemble')#('Initialisation date')
-    #plt.xticks((al, bl, cl, dl, el, fl), (a, b, c, d, e, f), rotation='352')
-    if pars[i]=='ENTRORG':
-      ax.set_ylabel('ENTRORG [10$^{-3}$ m$^{-1}$]')
-    else:
-      ax.set_ylabel('ENTSHALP')
+    if 0==1: # use when mean and uncertainty are put to the same figure
+      ax.set_xlabel('Number of iterations')#('Initialisation date')
+      #plt.xticks((al, bl, cl, dl, el, fl), (a, b, c, d, e, f), rotation='352')
+      if pars[i]=='ENTRORG':
+        ax.set_ylabel('ENTRORG [10$^{-3}$ m$^{-1}$]')
+      else:
+        ax.set_ylabel('ENTSHALP')
     
-    ax.set_title('Mean values and uncertainties')
+      ax.set_title('Mean values and uncertainties')
+  
+      #ax.legend(loc=0)#, fontsize = 'small')
 
-    ax.legend(loc=0)#, fontsize = 'small')
-    plt.rcParams.update({'font.size': 18})
-      #axes = plt.gca()
-    ax.set_xlim([0.0,ndays+1])
-    #plt.rcParams.update({'font.size': 20})
-    fig.savefig('new_figures/parameter' + str(i+1) + 'levs.png', dpi=300, format='png')
+      ax.set_xlim([0.0,ndays+1])
 
-if 1==1:
+      fig.savefig('new_figures/parameter' + str(i+1) + 'levs.png', dpi=300, format='png')
+
+    elif 1==1: # use when mean and uncertainty are put to different figures
+      textstr1='\n'.join((r'a'))
+      textstr2='\n'.join((r'b'))
+      textstr3='\n'.join((r'c'))
+      textstr4='\n'.join((r'd'))
+      props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+      ax.set_xlabel('Number of iterations')
+      ax2.set_xlabel('Number of iterations')
+      if pars[i]=='ENTRORG':
+        ax.set_ylabel('ENTRORG [10$^{-3}$ m$^{-1}$]')
+        ax.text(0.1, 0.95, textstr3, transform=ax.transAxes, fontsize=18, verticalalignment='top', bbox=props)
+        ax2.set_ylabel('ENTRORG [10$^{-3}$ m$^{-1}$]')
+        ax2.text(0.1, 0.95, textstr4, transform=ax2.transAxes, fontsize=18, verticalalignment='top', bbox=props)
+      else:
+        ax.set_ylabel('ENTSHALP')
+        ax.text(0.1, 0.95, textstr1, transform=ax.transAxes, fontsize=18, verticalalignment='top', bbox=props)
+        ax2.set_ylabel('ENTSHALP')
+        ax2.text(0.1, 0.95, textstr2, transform=ax2.transAxes, fontsize=18, verticalalignment='top', bbox=props)
+
+      ax.set_title('Mean values')
+      ax2.set_title('Uncertainties')
+      ax.legend(loc=0)
+      ax2.legend(loc=0)
+      ax.set_xlim([0.0,ndays+1])
+      ax2.set_xlim([0.0,ndays+1])
+      fig.savefig('new_figures/parameter' + str(i+1) + 'levs_m.png', dpi=300, format='png')
+      fig2.savefig('new_figures/parameter' + str(i+1) + 'levs_u.png', dpi=300, format='png')
+
+if 1==1: ####### Cost functions #######
   for i in range(npars):
       fig, ax=plt.subplots(figsize=(10,7.9))
       ax.plot(t, mu_data1[:,i], 'k-', linewidth=2.5, label='L1; $\mu$, $\mu \pm 2\sigma$')
@@ -226,7 +331,7 @@ if 1==1:
       #ax.plot(t, mu_data4[:,i]+2*np.sqrt(sig_data4[:,i,i]), 'c-', linewidth=1.0)
       ax.fill_between(t, mu_data4[:,i]-2*np.sqrt(sig_data4[:,i,i]), mu_data4[:,i]+2*np.sqrt(sig_data4[:,i,i]), facecolor='c', alpha=0.25)
       ax.plot(t, def_values[:,i], 'g-', linewidth=1.0, label='default value')
-      ax.set_xlabel('Number of ensemble')
+      ax.set_xlabel('Number of iterations')
       #plt.xticks((al, bl, cl, dl, el, fl), (a, b, c, d, e, f), rotation='352')
       if pars[i]=='ENTRORG':
         ax.set_ylabel('ENTRORG [10$^{-3}$ m$^{-1}$]')
@@ -237,11 +342,10 @@ if 1==1:
 
       ax.legend(loc=0)#, fontsize = 'small')
 
-      #axes = plt.gca()
       ax.set_xlim([0.0,ndays+1])
-      plt.rcParams.update({'font.size': 18})
-      fig.savefig('new_figures/parameter' + str(i+1) + 'costf.eps', dpi=300, format='eps')
+      #plt.rcParams.update({'font.size': 18})
+      #fig.savefig('new_figures/parameter' + str(i+1) + 'costf.eps', dpi=300, format='eps')
       fig.savefig('new_figures/parameter' + str(i+1) + 'costf.png', dpi=300, format='png')
-      fig.savefig('new_figures/parameter' + str(i+1) + 'costf.pdf', dpi=300, format='pdf')
+      #fig.savefig('new_figures/parameter' + str(i+1) + 'costf.pdf', dpi=300, format='pdf')
       fig.clf()
 
