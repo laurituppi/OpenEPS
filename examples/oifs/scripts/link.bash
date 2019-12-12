@@ -34,27 +34,27 @@ rm -f ICM*+00*
 # Link day specific fields
 if [ $RES -ne 21 ]; then # T21 does not need the climate file, also point all
                          # perts to ctrl
-    ln -sf ${IFSDATA}/t${RES}/$date/ICMCL${ename}INIT.1  ICMCL${EXPS}INIT
+    ln -sf ${INIBASEDIR}/t${RES}/$date/ICMCL${ename}INIT.1  ICMCL${EXPS}INIT
 fi
 if [ $nid -eq 0 ] || [ $INIPERT -eq 0 ]; then
-    ln -sf ${IFSDATA}/t${RES}/$date/ICMGG${ename}INIT  ICMGG${EXPS}INIT
-    ln -sf ${IFSDATA}/t${RES}/$date/ggml$RES           ICMGG${EXPS}INIUA
-    ln -sf ${IFSDATA}/t${RES}/$date/ICMSH${ename}INIT  ICMSH${EXPS}INIT
+    ln -sf ${INIBASEDIR}/t${RES}/$date/ICMGG${ename}INIT  ICMGG${EXPS}INIT
+    ln -sf ${INIBASEDIR}/t${RES}/$date/ggml$RES           ICMGG${EXPS}INIUA
+    ln -sf ${INIBASEDIR}/t${RES}/$date/ICMSH${ename}INIT  ICMSH${EXPS}INIT
 else
-    ln -sf ${IFSDATA}/t${RES}/$date/psu_$nid  ICMGG${EXPS}INIT
-    ln -sf ${IFSDATA}/t${RES}/$date/pan_$nid  ICMGG${EXPS}INIUA
-    ln -sf ${IFSDATA}/t${RES}/$date/pua_$nid  ICMSH${EXPS}INIT
+    ln -sf ${INIBASEDIR}/t${RES}/$date/psu_$nid  ICMGG${EXPS}INIT
+    ln -sf ${INIBASEDIR}/t${RES}/$date/pan_$nid  ICMGG${EXPS}INIUA
+    ln -sf ${INIBASEDIR}/t${RES}/$date/pua_$nid  ICMSH${EXPS}INIT
     #ln -sf ${IFSDATA}/t${RES}/$date/psu_000  ICMGG${EXPS}INIT
     #ln -sf ${IFSDATA}/t${RES}/$date/pan_000  ICMGG${EXPS}INIUA
     #ln -sf ${IFSDATA}/t${RES}/$date/pua_000  ICMSH${EXPS}INIT
 fi
 
 # Link climatologies
-ln -sf ${IFSDATA}/climatology/ifsdata .
+ln -sf ${IFSDATA}/40r1/ifsdata .
 ln -sf ${IFSDATA}/rtables
 if [ $RES -eq 21 ]; then
     ln -sf ${IFSDATA}/38r1/climate/${RES}_full
 else
-    ln -sf ${IFSDATA}/38r1/climate/${RES}l_2
+    ln -sf ${IFSDATA}/40r1/climate/${RES}l_2
 fi
 

@@ -33,9 +33,10 @@ if [ $COSTFUNCTION == '' ]; then
 # 2. Use global moist total energy norm as cost function.
 elif [ $COSTFUNCTION == 'MTEN' ]; then
   rm -f $DATA/eppes/scores.dat
-  if [ "$HOST"=="taito" ]; then
+  if [ "$HOST"=="puhti" ]; then
     #module load python-env/2.7.10
-    source $WRKDIR/DONOTREMOVE/miniconda3/etc/profile.d/conda.sh
+    export CONDA_ENVS_PATH=/projappl/project_2001011/puhti_conda_envs
+    source /appl/soft/bio/bioconda/miniconda3/etc/profile.d/conda.sh
     conda activate eppes_python_3
   elif [ "$HOST"=="sisu" ]; then
     module load python/2.7.13-gnu620
@@ -72,9 +73,10 @@ elif [ $COSTFUNCTION == 'MTEN' ]; then
 # 3. Use bad cost function; rmse of Z850
 elif [ $COSTFUNCTION == 'RMSE_z' ]; then
   rm -f $DATA/eppes/scores.dat
-  if [ "$HOST" -eq "taito" ]; then
+  if [ "$HOST" -eq "puhti" ]; then
     #module load python-env/2.7.10
-    source $WRKDIR/DONOTREMOVE/miniconda3/etc/profile.d/conda.sh
+    export CONDA_ENVS_PATH=/projappl/project_2001011/puhti_conda_envs
+    source /appl/soft/bio/bioconda/miniconda3/etc/profile.d/conda.sh
     conda activate eppes_python_3
   elif [ "$HOST" -eq "sisu" ]; then
       module load python/2.7.13-gnu620

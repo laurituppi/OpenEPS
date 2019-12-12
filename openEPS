@@ -9,9 +9,9 @@
 # Run options
 #
 
-NAME=parest_dev
+NAME=test_parest_dev
 MODEL=oifs
-HOST=taito
+HOST=puhti
 
 # Read in command line args
 #

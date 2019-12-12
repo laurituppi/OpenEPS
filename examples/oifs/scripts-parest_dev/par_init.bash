@@ -5,7 +5,8 @@
 if [ "$HOST"=="taito" ]; then
   #module load python-env/2.7.10
   #module load biopython-env
-  source $WRKDIR/DONOTREMOVE/miniconda3/etc/profile.d/conda.sh
+  export CONDA_ENVS_PATH=/projappl/project_2001011/puhti_conda_envs
+  source /appl/soft/bio/bioconda/miniconda3/etc/profile.d/conda.sh
   conda activate eppes_python_3
 elif [ "$HOST"=="sisu" ]; then
   module load python/2.7.13-gnu620

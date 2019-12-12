@@ -21,7 +21,7 @@
 EXPL="test2"  # Long exp name
 EXPS="part"       # 4 letter exp name
 SDATE=2016120100  # Exp start date
-EDATE=2016120200  # Exp end   date
+EDATE=2016120100  # Exp end   date
 DSTEP=12          # Hours between ensembles
 
 # Resolution, vertical levels, model run length (in steps[/hours/days])
@@ -39,12 +39,11 @@ ENS=5
 SCR_MOD="parest_dev"
 
 # Version
-#OIFSv=38r1v04
-OIFSv=40r1v1
+OIFSv=40r1v2
 
 # Model bin
 #MODEL_EXE=/appl/earth/openifs/intel-16.0.0/intelmpi-5.1.1/38r1v04/bin/master.exe
-MODEL_EXE=/proj/atm/lauri/oifs40r1v1/cce/8.5.6/bin/master.exe
+MODEL_EXE=/projappl/project_2001011/OpenIFS/intel_19.0.4/cy40r1v2/master.exe
 
 export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS EXPTYPE
 
@@ -54,9 +53,9 @@ export EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS EXPTYPE
 # RESOURCES
 # --------------------------------------------------------------
 # Number of nodes or number of cores per model
-NNODES=6
+#NNODES=6
 # or
-#CPUSTOT=24
+CPUSTOT=24
 
 # CPUs per single model
 CPUSPERMODEL=24
@@ -66,10 +65,10 @@ CPUSPERMODEL=24
 # see the time estimation formula in env.-configuration file.
 TIMEFORMODEL=
 # or
-EXPTIME="00:20:00"
+EXPTIME="00:14:00"
 
 # Which queue to submit the job to
-BATCHQUEUE=small #test #parallel
+BATCHQUEUE=test #small #test
 
 export NNODES CPUSTOT CPUSPERMODEL TIMEFORMODEL EXPTIME BATCHQUEUE
 
@@ -101,7 +100,7 @@ REQUIRE_VARS="$REQUIRE_VARS EXPL EXPS SDATE EDATE DSTEP RES LEV FCLEN ENS NNODES
 # --------------------------------------------------------------
 
 # Stochastic physics
-LSPPT="true"
+LSPPT="false"
 LSKEB="false" # "true" does not work with cy38r1
 
 # Initial state perturbations
@@ -160,6 +159,6 @@ done
 # EPPES bin
 EPPES_EXE=/proj/atm/lauri/EPPESPY/eppesroutine.py
 
-LPAR="true"
+LPAR="false"
 
 export EPPES_EXE LPAR
