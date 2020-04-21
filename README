@@ -85,6 +85,31 @@ exp.test3
    new parameter values for the next date
 6) go to next date
 
+exp.parest_dev
+* Used to run convergence tests with EPPES
+1) link initial states for each ens member, final adjustments to
+namelists
+2) once initial states and namelists are available, change
+   selected closure parameter values via namelists
+3) run the model
+4) once model output is available, calculate a cost function
+5) once all ensemble members have completed 1-4 execute an EPPES
+   update that will update parameter distributions, also draw
+   new parameter values for the next date
+6) go to next date
+
+exp.parest_DE_dev
+* Used to run convergence tests with DE
+1) link initial states for each ens member, final adjustments to
+namelists
+2) once initial states and namelists are available, change
+   selected closure parameter values via namelists
+3) run the model
+4) once model output is available, calculate a cost function
+5) once all ensemble members have completed 1-4 execute an EPPES
+   update that will update parameter distributions, also draw
+   new parameter values for the next date
+6) go to next date
 
  --------------------------------------------------------------
   ISSUES/TBD (30th January 2018):
